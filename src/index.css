@@ -1,71 +1,216 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Design System Variables */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Light Mode */
+  --color-bg-primary: #fdfbf7;      /* Beige 50 - main background */
+  --color-bg-secondary: #f8f4ed;    /* Beige 100 - card background */
+  --color-bg-tertiary: #f0e8d9;     /* Beige 200 - subtle sections */
+  
+  --color-text-primary: #111827;    /* Grey 900 - main text */
+  --color-text-secondary: #374151;  /* Grey 700 - secondary text */
+  --color-text-tertiary: #6b7280;   /* Grey 500 - muted text */
+  
+  --color-border: #e5e7eb;          /* Grey 200 - borders */
+  --color-accent: #0052cc;          /* Navy 500 - brand accent */
+  --color-accent-hover: #003d99;    /* Navy 600 - hover state */
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* Dark Mode */
+.dark {
+  --color-bg-primary: #000d26;      /* Navy 900 - dark background */
+  --color-bg-secondary: #001a4d;    /* Navy 800 - dark cards */
+  --color-bg-tertiary: #002966;     /* Navy 700 - subtle sections */
+  
+  --color-text-primary: #f8f4ed;    /* Beige 100 - main text */
+  --color-text-secondary: #e8dcc5;  /* Beige 300 - secondary text */
+  --color-text-tertiary: #d4c4a8;   /* Beige 400 - muted text */
+  
+  --color-border: #002966;          /* Navy 700 - borders */
+  --color-accent: #4d94ff;          /* Navy 300 - bright accent */
+  --color-accent-hover: #99c2ff;    /* Navy 200 - hover state */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Base Styles */
+@layer base {
+  * {
+    @apply border-grey-200 dark:border-navy-700;
   }
-  a:hover {
-    color: #747bff;
+  
+  body {
+    @apply bg-beige-50 dark:bg-navy-900;
+    @apply text-grey-900 dark:text-beige-100;
+    @apply font-sans antialiased;
+    @apply transition-colors duration-200;
   }
-  button {
-    background-color: #f9f9f9;
+  
+  /* Typography Scale with new colors */
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+    @apply text-navy-900 dark:text-beige-50;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+    @apply text-navy-900 dark:text-beige-50;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+    @apply text-navy-800 dark:text-beige-100;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl font-semibold;
+    @apply text-navy-800 dark:text-beige-100;
+  }
+  
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+    @apply text-grey-700 dark:text-beige-200;
+  }
+  
+  a {
+    @apply text-accent hover:text-accent-dark;
+    @apply dark:text-accent-light dark:hover:text-navy-200;
+    @apply transition-colors duration-200;
+  }
+  
+  code {
+    @apply font-mono text-sm;
+    @apply bg-beige-200 dark:bg-navy-800;
+    @apply text-navy-700 dark:text-beige-300;
+    @apply px-1.5 py-0.5 rounded;
+  }
+  
+  pre {
+    @apply font-mono text-sm;
+    @apply bg-beige-100 dark:bg-navy-800;
+    @apply p-4 rounded-lg overflow-x-auto;
+    @apply border border-beige-300 dark:border-navy-700;
+  }
+}
+
+/* Custom Utility Classes */
+@layer utilities {
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Section Padding */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+  
+  /* Card with new palette */
+  .card {
+    @apply bg-beige-100 dark:bg-navy-800;
+    @apply border border-beige-300 dark:border-navy-700;
+    @apply rounded-lg shadow-sm;
+    @apply transition-shadow duration-200;
+  }
+  
+  .card:hover {
+    @apply shadow-md;
+  }
+  
+  /* Link with underline animation */
+  .link-underline {
+    @apply relative;
+  }
+  
+  .link-underline::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5;
+    @apply bg-accent dark:bg-accent-light;
+    @apply transition-all duration-300;
+  }
+  
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+  
+  /* Gradient text with navy/beige */
+  .gradient-text {
+    @apply bg-gradient-to-r from-navy-600 to-accent bg-clip-text text-transparent;
+  }
+  
+  /* Focus visible styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+    @apply dark:focus:ring-accent-light dark:focus:ring-offset-navy-900;
+  }
+  
+  /* Button base (will be used in Button component) */
+  .btn-primary {
+    @apply bg-navy-600 text-beige-50 hover:bg-navy-700;
+    @apply dark:bg-navy-500 dark:hover:bg-navy-400;
+  }
+  
+  .btn-secondary {
+    @apply bg-beige-300 text-navy-900 hover:bg-beige-400;
+    @apply dark:bg-beige-700 dark:text-beige-50 dark:hover:bg-beige-600;
+  }
+}
+
+/* Animations */
+@layer utilities {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .animate-slide-in {
+    animation: slideIn 0.4s ease-out;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+  
+  .no-print {
+    display: none !important;
   }
 }
