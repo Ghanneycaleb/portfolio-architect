@@ -1,69 +1,49 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { Hero } from './components/home/Hero';
-import { ProjectCard } from './components/projects/ProjectCard';
-import { Card } from './components/common/Card';
-import { projects } from './data/projects';
+import { Home } from './pages/Home';
+import { ProjectDetail } from './pages/ProjectDetail';
+import { NotFound } from './pages/NotFound';
 import './styles/index.css';
 
 /**
- * App Component (Day 2 Demo)
+ * App Component
  * 
- * Now includes:
- * - Hero with impact metrics
- * - Project cards grid
+ * Root component with:
+ * - React Router setup
+ * - Layout (Header + Footer on all pages)
+ * - Route definitions
+ * 
+ * Routes:
+ * - / → Home page
+ * - /project/:projectId → Project detail
+ * - * → 404 page
  */
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      
-      <main className="flex-1">
-        {/* Hero Section */}
-        <Hero />
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        {/* Header on all pages */}
+        <Header />
         
-        {/* Projects Section */}
-        <section 
-          id="projects" 
-          className="section-padding bg-beige-50 dark:bg-navy-900"
-        >
-          <div className="container-custom">
-            {/* Section Header */}
-            <div className="max-w-3xl mb-12">
-              <h2 className="mb-4">Featured Projects</h2>
-              <p className="text-lg text-grey-600 dark:text-beige-400">
-                Deep-dive case studies showing problem-solving, 
-                architecture decisions, and measurable impact.
-              </p>
-            </div>
+        {/* Main content - routes swap here */}
+        <main className="flex-1">
+          <Routes>
+            {/* Home page */}
+            <Route path="/" element={<Home />} />
             
-            {/* Projects Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-          </div>
-        </section>
+            {/* Project detail pages */}
+            <Route path="/project/:projectId" element={<ProjectDetail />} />
+            
+            {/* 404 catch-all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
         
-        {/* Placeholder for future sections */}
-        <section className="section-padding bg-beige-100 dark:bg-navy-800">
-          <div className="container-custom text-center">
-            <Card>
-              <Card.Body>
-                <h3 className="mb-4">Coming Soon</h3>
-                <p className="text-grey-600 dark:text-beige-400">
-                  Technical notes, testimonials, and more sections 
-                  will be added in Day 3!
-                </p>
-              </Card.Body>
-            </Card>
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
-    </div>
+        {/* Footer on all pages */}
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
