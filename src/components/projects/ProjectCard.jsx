@@ -29,7 +29,7 @@ export const ProjectCard = ({ project }) => {
   };
   
   return (
-    <a 
+    <link 
       href={`#project-${project.id}`}
       onClick={handleClick}
       className="block group"
@@ -182,6 +182,6 @@ export const ProjectCard = ({ project }) => {
           </div>
         </Card.Body>
       </Card>
-    </a>
+    </link>
   );
 };
