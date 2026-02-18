@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
@@ -35,8 +36,8 @@ export const Header = () => {
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Name */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="
               text-xl font-bold 
               text-navy-900 dark:text-beige-50 
@@ -46,14 +47,14 @@ export const Header = () => {
           >
             <span className="hidden sm:inline">Frontend Architect</span>
             <span className="sm:hidden">FA</span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.path}
+                to={item.path}
                 className="
                   text-sm font-medium 
                   text-grey-700 dark:text-beige-300 
@@ -62,7 +63,7 @@ export const Header = () => {
                 "
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
             <ThemeToggle />
           </div>
@@ -124,9 +125,9 @@ export const Header = () => {
           >
             <div className="flex flex-col gap-4">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.path}
+                  to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className="
                     text-base font-medium 
@@ -136,7 +137,7 @@ export const Header = () => {
                   "
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

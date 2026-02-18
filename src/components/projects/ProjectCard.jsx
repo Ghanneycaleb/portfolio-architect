@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Card } from '../common/Card';
 
 /**
@@ -21,17 +22,9 @@ export const ProjectCard = ({ project }) => {
   const topMetrics = project.results.business?.slice(0, 2) || 
                      project.results.performance?.slice(0, 2) || [];
   
-  // For now, we'll use href="#" - we'll add proper routing in Day 3
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log('Navigate to:', `/project/${project.id}`);
-    // TODO: Add React Router navigation in Day 3
-  };
-  
   return (
-    <link 
-      href={`#project-${project.id}`}
-      onClick={handleClick}
+    <Link 
+      to={`/project/${project.id}`}
       className="block group"
     >
       <Card variant="hover" className="h-full">
@@ -182,6 +175,6 @@ export const ProjectCard = ({ project }) => {
           </div>
         </Card.Body>
       </Card>
-    </link>
+    </Link>
   );
 };
