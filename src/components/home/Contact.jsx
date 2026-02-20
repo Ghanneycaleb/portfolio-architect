@@ -1,7 +1,7 @@
-import React from "react";
 import { profile } from "../../data/profile";
 import { Card } from "../common/Card";
 import { Button } from "../common/Button";
+import { trackContactClick, trackResumeDownload } from "../../utils/analytics";
 
 /**
  * Contact Component
@@ -14,6 +14,20 @@ import { Button } from "../common/Button";
  * Provides clear next steps for recruiters/hiring managers.
  */
 export const Contact = () => {
+  // ADD THESE HANDLERS
+  const handleEmailClick = () => {
+    trackContactClick("email");
+  };
+
+  const handleSocialClick = (platform) => {
+    trackContactClick(platform);
+  };
+
+  const handleResumeClick = () => {
+    trackResumeDownload();
+    window.open(profile.links.resume, "_blank");
+  };
+
   return (
     <section
       id="contact"
@@ -21,58 +35,38 @@ export const Contact = () => {
     >
       <div className="container-custom">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Header */}
           <h2 className="mb-4">Let's Work Together</h2>
-          <p
-            className="
-            text-lg 
-            text-grey-600 dark:text-beige-400 
-            mb-8
-          "
-          >
+          <p className="text-lg text-grey-600 dark:text-beige-400 mb-8">
             Interested in discussing a project or opportunity? I'd love to hear
             from you.
           </p>
 
-          {/* Contact Options */}
           <Card>
             <Card.Body className="p-8">
               <div className="space-y-6">
-                {/* Email */}
+                {/* Email - ADD onClick */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3">Email</h3>
 
                   <a
                     href={`mailto:${profile.links.email}`}
-                    className="
-                      text-navy-600 dark:text-navy-400 
-                      hover:text-navy-700 dark:hover:text-navy-300 
-                      font-medium
-                      transition-colors
-                    "
+                    onClick={handleEmailClick}
+                    className="text-navy-600 dark:text-navy-400 hover:text-navy-700 dark:hover:text-navy-300 font-medium transition-colors"
                   >
                     {profile.links.email}
                   </a>
                 </div>
 
-                {/* Social Links */}
-                <div
-                  className="
-                  pt-6 
-                  border-t border-beige-300 dark:border-navy-700
-                "
-                >
+                {/* Social Links - ADD onClick */}
+                <div className="pt-6 border-t border-beige-300 dark:border-navy-700">
                   <h3 className="text-lg font-semibold mb-4">Connect</h3>
                   <div className="flex justify-center gap-6">
                     <a
                       href={profile.links.github}
+                      onClick={() => handleSocialClick("github")}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="
-                        text-grey-600 dark:text-beige-400 
-                        hover:text-navy-600 dark:hover:text-navy-400 
-                        transition-colors
-                      "
+                      className="text-grey-600 dark:text-beige-400 hover:text-navy-600 dark:hover:text-navy-400 transition-colors"
                       aria-label="GitHub"
                     >
                       <svg
@@ -86,13 +80,10 @@ export const Contact = () => {
 
                     <a
                       href={profile.links.linkedin}
+                      onClick={() => handleSocialClick("linkedin")}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="
-                        text-grey-600 dark:text-beige-400 
-                        hover:text-navy-600 dark:hover:text-navy-400 
-                        transition-colors
-                      "
+                      className="text-grey-600 dark:text-beige-400 hover:text-navy-600 dark:hover:text-navy-400 transition-colors"
                       aria-label="LinkedIn"
                     >
                       <svg
@@ -107,13 +98,10 @@ export const Contact = () => {
                     {profile.links.twitter && (
                       <a
                         href={profile.links.twitter}
+                        onClick={() => handleSocialClick("twitter")}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="
-                          text-grey-600 dark:text-beige-400 
-                          hover:text-navy-600 dark:hover:text-navy-400 
-                          transition-colors
-                        "
+                        className="text-grey-600 dark:text-beige-400 hover:text-navy-600 dark:hover:text-navy-400 transition-colors"
                         aria-label="Twitter"
                       >
                         <svg
@@ -128,17 +116,12 @@ export const Contact = () => {
                   </div>
                 </div>
 
-                {/* Resume Download */}
-                <div
-                  className="
-                  pt-6 
-                  border-t border-beige-300 dark:border-navy-700
-                "
-                >
+                {/* Resume - UPDATE onClick */}
+                <div className="pt-6 border-t border-beige-300 dark:border-navy-700">
                   <Button
                     variant="primary"
                     size="lg"
-                    onClick={() => window.open(profile.links.resume, "_blank")}
+                    onClick={handleResumeClick}
                   >
                     <svg
                       className="w-5 h-5 mr-2"
