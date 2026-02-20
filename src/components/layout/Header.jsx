@@ -1,28 +1,64 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Header Component
  *
- * Main navigation with:
- * - Logo/name
- * - Navigation links
- * - Theme toggle
- * - Mobile menu (hamburger)
- *
- * Sticky at top with backdrop blur effect.
+ * Updated with React Router integration:
+ * - Logo links to home with <Link>
+ * - Navigation uses scroll for hash links
+ * - Active state based on current route
  */
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Navigation items
   const navigation = [
     { name: "Home", path: "/" },
-    { name: "Projects", path: "#projects" },
-    { name: "Notes", path: "#notes" },
-    { name: "Contact", path: "#contact" },
+    { name: "Projects", path: "/#projects" },
+    { name: "Contact", path: "/#contact" },
   ];
+
+  // Handle navigation with smooth scroll for hash links
+  const handleNavClick = (e, path) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    // Check if it's a hash link
+    if (path.includes("#")) {
+      const [route, hash] = path.split("#");
+
+      // If we're already on the route, just scroll
+      if (location.pathname === route || route === "") {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // Navigate then scroll
+        navigate(route || "/");
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    } else {
+      // Regular navigation
+      navigate(path);
+    }
+  };
+
+  // Check if link is active
+  const isActive = (path) => {
+    if (path === "/") return location.pathname === "/";
+    if (path.startsWith("/#")) return location.pathname === "/";
+    return location.pathname === path;
+  };
 
   return (
     <header
@@ -35,7 +71,7 @@ export const Header = () => {
     >
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16">
-          {/* Logo / Name */}
+          {/* Logo - use Link instead of <a> */}
           <Link
             to="/"
             className="
@@ -52,18 +88,21 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
-              <Link
+              <a
                 key={item.name}
-                to={item.path}
-                className="
-                  text-sm font-medium 
-                  text-grey-700 dark:text-beige-300 
-                  hover:text-navy-600 dark:hover:text-beige-100 
-                  transition-colors
-                "
+                href={item.path}
+                onClick={(e) => handleNavClick(e, item.path)}
+                className={`
+                  text-sm font-medium transition-colors
+                  ${
+                    isActive(item.path)
+                      ? "text-navy-600 dark:text-navy-400"
+                      : "text-grey-700 dark:text-beige-300 hover:text-navy-600 dark:hover:text-beige-100"
+                  }
+                `}
               >
                 {item.name}
-              </Link>
+              </a>
             ))}
             <ThemeToggle />
           </div>
@@ -81,7 +120,6 @@ export const Header = () => {
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                // X icon (close)
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -96,7 +134,6 @@ export const Header = () => {
                   />
                 </svg>
               ) : (
-                // Hamburger icon (menu)
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -115,7 +152,7 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu (shown when hamburger clicked) */}
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div
             className="
@@ -125,19 +162,21 @@ export const Header = () => {
           >
             <div className="flex flex-col gap-4">
               {navigation.map((item) => (
-                <Link
+                <a
                   key={item.name}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="
-                    text-base font-medium 
-                    text-grey-700 dark:text-beige-300 
-                    hover:text-navy-600 dark:hover:text-beige-100 
-                    transition-colors
-                  "
+                  href={item.path}
+                  onClick={(e) => handleNavClick(e, item.path)}
+                  className={`
+                    text-base font-medium transition-colors
+                    ${
+                      isActive(item.path)
+                        ? "text-navy-600 dark:text-navy-400"
+                        : "text-grey-700 dark:text-beige-300 hover:text-navy-600 dark:hover:text-beige-100"
+                    }
+                  `}
                 >
                   {item.name}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
