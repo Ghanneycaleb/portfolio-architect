@@ -16,7 +16,7 @@ export const projects = [
     id: "e-commerce-performance",
     title: "E-commerce Performance Overhaul",
     tagline: "Reduced load time by 3.2s, increased conversion by 18%",
-    thumbnail: "/projects/ecommerce-thumb.jpg", // Add actual image later
+    thumbnail: "/projects/e-commerce-thumb.jpg", // Add actual image later
     category: "Performance Optimization",
     timeline: "Q2 2024 - 3 months",
     role: "Lead Frontend Engineer",
