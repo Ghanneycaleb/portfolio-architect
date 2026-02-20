@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../common/Card';
-
+import { trackProjectClick } from '../../utils/analytics'; 
 /**
  * ProjectCard Component
  * 
@@ -22,9 +22,14 @@ export const ProjectCard = ({ project }) => {
   const topMetrics = project.results.business?.slice(0, 2) || 
                      project.results.performance?.slice(0, 2) || [];
   
+  const handleClick = () => {
+    trackProjectClick(project.id, project.title);
+  };
+
   return (
     <Link 
       to={`/project/${project.id}`}
+       onClick={handleClick}
       className="block group"
     >
       <Card variant="hover" className="h-full">
