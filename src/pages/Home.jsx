@@ -1,5 +1,6 @@
 import { Hero } from '../components/home/Hero';
 import { ProjectCard } from '../components/projects/ProjectCard';
+import { Contact } from '../components/home/Contact';
 import { projects } from '../data/projects';
 
 /**
@@ -40,6 +41,10 @@ export const Home = () => {
           </div>
         </div>
       </section>
+      
+       {/* Contact Section - ADD THIS */}
+      <Contact />
+    
     </div>
   );
 };
